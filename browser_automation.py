@@ -9,11 +9,13 @@ Created on Fri May  8 15:00:07 2020
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-browser = webdriver.Chrome("chromedriver_linux64/chromedriver")
-browser.get("https://www1.nseindia.com/live_market/dynaContent/live_watch/equities_stock_watch.htm")
+browser = webdriver.Chrome('chromedriver_linux64/chromedriver')
 
-browser.maximize_window()
+browser.get("https://www.bseindia.com/eqstreamer/StreamerMarketwatch.html?flag=1")
 
 # locator
-data = browser.find_element_by_link_text('Download in csv')
-data.click()
+link = browser.find_element_by_xpath('//*[@id="btndwnload"]')
+link.click()
+
+download_csv = browser.find_element_by_xpath('//*[@id="ContentPlaceHolder1_imgDownload"]')
+download_csv.click()
