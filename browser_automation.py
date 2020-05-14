@@ -14,28 +14,35 @@ from selenium.webdriver.support import expected_conditions as waitE
 import time
 import pandas as pd
 
-user_agent = 'Chrome/33.0.1750.517'
-options = webdriver.chrome.options.Options()
-options.add_argument(f'user-agent={user_agent}')
 
+class Browser_Automation:
+    def __init__(self):
+        self.equity_data = pd.DataFrame()
 
-browser = webdriver.Chrome('chromedriver_linux64/chromedriver', chrome_options=options)
-browser.get("https://www.bseindia.com/markets.html")
+    def load_browser(self):
+        user_agent = 'Chrome/33.0.1750.517'
+        options = webdriver.chrome.options.Options()
+        options.add_argument(f'user-agent={user_agent}')
 
-# while(waitE.visibility_of_element_located((By.TAG_NAME, 'table'))):
-#     time.sleep(2)
+        browser = webdriver.Chrome('chromedriver_linux64/chromedriver', chrome_options=options)
+        browser.get("https://www.bseindia.com/markets.html")
 
-market_data = browser.find_element_by_link_text('Equity')
-ActionChains(browser).move_to_element(market_data).click(market_data).perform()
+        # while(waitE.visibility_of_element_located((By.TAG_NAME, 'table'))):
+        #     time.sleep(2)
 
-time.sleep(2)
-equity = browser.find_element_by_link_text('Equity Market Watch')
-equity.click()
+        market_data = browser.find_element_by_link_text('Equity')
+        ActionChains(browser).move_to_element(market_data).click(market_data).perform()
 
-time.sleep(2)
-rows = browser.find_elements_by_xpath('//*[@id="header"]/table//tr')
-time.sleep(2)
+        time.sleep(2)
+        equity = browser.find_element_by_link_text('Equity Market Watch')
+        equity.click()
 
-equity_data = pd.DataFrame()
-for row in rows:
-    equity_data.append(list(row.text))
+        time.sleep(2)
+        rows = browser.find_elements_by_xpath('//*[@id="header"]/table//tr')
+        time.sleep(2)
+
+        for row in rows:
+            self.equity_data = self.equity_data.append(pd.DataFrame(row.text.split(" ")).T)
+
+    def get_data(self):
+        return self.equity_data
