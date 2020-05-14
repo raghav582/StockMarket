@@ -12,6 +12,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as waitE
 import time
+import pandas as pd
 
 user_agent = 'Chrome/33.0.1750.517'
 options = webdriver.chrome.options.Options()
@@ -32,6 +33,9 @@ equity = browser.find_element_by_link_text('Equity Market Watch')
 equity.click()
 
 time.sleep(2)
-rows = browser.find_elements_by_tag_name('tr')
+rows = browser.find_elements_by_xpath('//*[@id="header"]/table//tr')
 time.sleep(2)
-print(len(rows))
+
+equity_data = pd.DataFrame()
+for row in rows:
+    equity_data.append(list(row.text))
