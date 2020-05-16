@@ -25,20 +25,22 @@ class Browser_Automation:
         options.add_argument(f'user-agent={user_agent}')
 
         browser = webdriver.Chrome('chromedriver_linux64/chromedriver', chrome_options=options)
-        browser.get("https://www.bseindia.com/markets.html")
+        browser.get("https://www.nseindia.com/")
 
         # while(waitE.visibility_of_element_located((By.TAG_NAME, 'table'))):
         #     time.sleep(2)
 
-        market_data = browser.find_element_by_link_text('Equity')
-        ActionChains(browser).move_to_element(market_data).click(market_data).perform()
+        market_data = browser.find_element_by_xpath('//*[@id="main_navbar"]/ul/li[2]/a')
+        ActionChains(browser).move_to_element(market_data).perform()
 
         time.sleep(2)
-        equity = browser.find_element_by_link_text('Equity Market Watch')
+        equity = browser.find_element_by_link_text('Equity & SME Market')
         equity.click()
 
         time.sleep(2)
-        rows = browser.find_elements_by_xpath('//*[@id="header"]/table//tr')
+        head = browser.find_element_by_xpath('//*[@id="equityStockTable"]/thead/tr')
+        rows = browser.find_elements_by_xpath('//*[@id="equityStockTable"]/tbody/tr')
+        self.equity_data = self.equity_data.append(pd.DataFrame(head.text.split(" ")).T)
         time.sleep(2)
 
         for row in rows:
