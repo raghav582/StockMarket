@@ -20,12 +20,13 @@ class Browser_Automation:
         self.equity_data = pd.DataFrame()
 
     def load_browser(self):
-        user_agent = 'Chrome/33.0.1750.517'
         options = webdriver.chrome.options.Options()
-        options.add_argument(f'user-agent={user_agent}')
+        options.add_argument("user-agent = Chrome/33.0.1750.517")
 
         browser = webdriver.Chrome('chromedriver_linux64/chromedriver', chrome_options=options)
-        browser.get("https://www.nseindia.com/")
+        agent = browser.execute_script('return navigator.userAgent')
+        print(agent)
+        browser.get("https://www.nseindia.com")
 
         # while(waitE.visibility_of_element_located((By.TAG_NAME, 'table'))):
         #     time.sleep(2)
@@ -38,6 +39,10 @@ class Browser_Automation:
         equity.click()
 
         time.sleep(2)
+        browser.delete_all_cookies()
+        browser.refresh()
+
+        time.sleep(5)
         head = browser.find_element_by_xpath('//*[@id="equityStockTable"]/thead/tr')
         rows = browser.find_elements_by_xpath('//*[@id="equityStockTable"]/tbody/tr')
         self.equity_data = self.equity_data.append(pd.DataFrame(head.text.split(" ")).T)
