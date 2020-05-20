@@ -23,8 +23,12 @@ class Browser_Automation:
     def load_browser(self):
         options = webdriver.chrome.options.Options()
         options.add_argument("user-agent = Chrome/33.0.1750.517")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-extensions")
 
-        self.browser = webdriver.Chrome('chromedriver_linux64/chromedriver', chrome_options=options)
+        path = 'chromedriver_linux64/chromedriver'
+        self.browser = webdriver.Chrome(path, chrome_options=options)
         agent = self.browser.execute_script('return navigator.userAgent')
         print(agent)
         self.browser.get("https://www.nseindia.com")
