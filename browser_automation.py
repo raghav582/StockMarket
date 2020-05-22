@@ -46,19 +46,19 @@ class Browser_Automation:
 
         self.browser_refresh()
 
-        # time.sleep(5)
-        # waitE.visibility_of_element_located((By.XPATH, '//*[@id="equityStockTable"]/tbody/tr[51]'))
+        time.sleep(5)
+        # waitE.visibility_of_element_located((By.XPATH, '//*[@id="equityStockTable"]/tbody/tr[51]/td[13]'))
         # head = self.browser.find_element_by_xpath('//*[@id="equityStockTable"]/thead/tr')
         # rows = self.browser.find_elements_by_xpath('//*[@id="equityStockTable"]/tbody/tr')
+        # print(head.text)
         # self.equity_data = self.equity_data.append(pd.DataFrame(head.text.split(" ")).T)
         # time.sleep(2)
-
+        #
         # for row in rows:
         #     self.equity_data = self.equity_data.append(pd.DataFrame(row.text.split(" ")).T)
-
-        waitE.visibility_of_element_located((By.LINK_TEXT, 'Download (.csv)'))
-        download_csv = self.browser.find_elements_by_xpath('//*[@id="equity-stock"]/div[2]/div/div[3]/div/ul/li/a')
-        download_csv.click()
+        #
+        # download_csv = self.browser.find_element_by_xpath('//*[@id="equity-stock"]/div[2]/div/div[3]/div/ul/li/a')
+        self.browser.execute_script('dnldEquityStock()')
 
     def get_data(self):
         return self.equity_data
