@@ -26,11 +26,26 @@ class Browser_Automation:
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-extensions")
+        options.add_experimental_option("prefs",{
+            "download.default_directory": "/home/raghav/Desktop/StockMarket/datasets/",
+            "download.prompt_for_download": False,
+            "download.directory_upgrade": True,
+            "safebrowsing_for_trusted_sources_enabled": False,
+            "safebrowsing.enabled": False
+        })
 
         path = 'chromedriver_linux64/chromedriver'
         self.browser = webdriver.Chrome(path, chrome_options=options)
         agent = self.browser.execute_script('return navigator.userAgent')
         print(agent)
+
+        self.browser.command_executor._commands["send_command"] = ("POST", '/session/$sessionId/chromium/send_command')
+        params = {'cmd': 'Page.setDownloadBehavior',
+                  'params': {'behavior': 'allow', 'downloadPath': "/home/raghav/Desktop/StockMarket/datasets/"}}
+        command_result = self.browser.execute("send_command", params)
+
+        print(str(command_result))
+
         self.browser.get("https://www.nseindia.com")
 
         # while(waitE.visibility_of_element_located((By.TAG_NAME, 'table'))):
@@ -57,8 +72,10 @@ class Browser_Automation:
         # for row in rows:
         #     self.equity_data = self.equity_data.append(pd.DataFrame(row.text.split(" ")).T)
         #
-        # download_csv = self.browser.find_element_by_xpath('//*[@id="equity-stock"]/div[2]/div/div[3]/div/ul/li/a')
-        self.browser.execute_script('dnldEquityStock()')
+        download_csv = self.browser.find_element_by_xpath('//*[@id="equity-stock"]/div[2]/div/div[3]/div/ul/li/a')
+        print(download_csv.text)
+        download_csv.click()
+        # self.browser.execute_script('dnldEquityStock()')
 
     def get_data(self):
         return self.equity_data
