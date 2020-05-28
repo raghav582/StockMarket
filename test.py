@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.options import Options
 import os
 
@@ -37,9 +38,10 @@ download_dir = "/home/raghav/Desktop/StockMarket/datasets/"
 enable_download_headless(driver, download_dir)
 
 # get request to target the site selenium is active on
-driver.get("https://www.nseindia.com/market-data/live-equity-market")
 driver.delete_all_cookies()
-driver.refresh()
+driver.get("https://www.bseindia.com/eqstreamer/StreamerMarketwatch.html?flag=1")
+
 # initialize an object to the location on the html page and click on it to download
-search_input = driver.find_element_by_xpath('//*[@id="equity-stock"]/div[2]/div/div[3]/div/ul/li/a')
-driver.execute_script("var $select = $('#equitieStockSelect'); downloadFile('/api/equity-stockIndices?csv=true&index=' + encodeURIComponent($select.val().toUpperCase()));")
+search_input = driver.find_element_by_xpath('//*[@id="btndwnload"]')
+search_input.click()
+

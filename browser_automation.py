@@ -46,39 +46,12 @@ class Browser_Automation:
 
         print(str(command_result))
 
-        self.browser.get("https://www.nseindia.com")
-
+        self.browser.get("https://www.bseindia.com/markets/Equity/EQReports/MarketwatchDownloads.aspx")
+        self.browser_refresh()
         # while(waitE.visibility_of_element_located((By.TAG_NAME, 'table'))):
         #     time.sleep(2)
-
-        market_data = self.browser.find_element_by_xpath('//*[@id="main_navbar"]/ul/li[2]/a')
-        ActionChains(self.browser).move_to_element(market_data).perform()
-
-        time.sleep(2)
-        waitE.visibility_of_element_located((By.LINK_TEXT, 'Equity & SME Market'))
-        equity = self.browser.find_element_by_link_text('Equity & SME Market')
+        equity = self.browser.find_element_by_xpath('//*[@id="ContentPlaceHolder1_imgDownload"]')
         equity.click()
-
-        self.browser_refresh()
-
-        time.sleep(5)
-        # waitE.visibility_of_element_located((By.XPATH, '//*[@id="equityStockTable"]/tbody/tr[51]/td[13]'))
-        # head = self.browser.find_element_by_xpath('//*[@id="equityStockTable"]/thead/tr')
-        # rows = self.browser.find_elements_by_xpath('//*[@id="equityStockTable"]/tbody/tr')
-        # print(head.text)
-        # self.equity_data = self.equity_data.append(pd.DataFrame(head.text.split(" ")).T)
-        # time.sleep(2)
-        #
-        # for row in rows:
-        #     self.equity_data = self.equity_data.append(pd.DataFrame(row.text.split(" ")).T)
-        #
-        download_csv = self.browser.find_element_by_xpath('//*[@id="equity-stock"]/div[2]/div/div[3]/div/ul/li/a')
-        print(download_csv.text)
-        download_csv.click()
-        # self.browser.execute_script('dnldEquityStock()')
-
-    def get_data(self):
-        return self.equity_data
 
     def browser_refresh(self):
         time.sleep(2)
